@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Error",
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Mensaje que indica el error"
+    }
+  },
+  "required": ["message"],
+  "additionalProperties": false
+}

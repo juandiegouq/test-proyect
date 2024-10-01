@@ -2,15 +2,24 @@ package edu.uniquindio.stepDefinitions;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.cucumber.java.en.Then;
+import com.github.javafaker.Faker;
+
+import java.io.File;
+
 import static io.restassured.RestAssured.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
+//import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+
+
 
 public class RegistroSteps {
 
     private String baseUrl = "http://localhost:8080"; // Cambia según sea necesario
-    private int idUsuario = 72;
+    private int idUsuario = 81;
     private String nombreUsuario;
     private String correoUsuario;
     private String contraseñaUsuario;
@@ -43,6 +52,22 @@ public class RegistroSteps {
         this.correoUsuario = correo;
         this.contraseñaUsuario = contraseña;
     }
+
+    @Given("un usuario con datos generados aleatoriamente")
+    public void unUsuarioConDatosAleatorios() {
+        Faker faker = new Faker();
+        this.nombreUsuario = String.valueOf(faker.name().firstName());
+        System.out.println("Nombre usuario fake:");
+        System.out.println(nombreUsuario);
+        this.correoUsuario = String.valueOf(faker.internet().emailAddress());
+        System.out.println("Correo fake:");
+        System.out.println(correoUsuario);
+        this.contraseñaUsuario = String.valueOf(faker.internet().password());
+        System.out.println("Contraseña fake:");
+        System.out.println(contraseñaUsuario);
+
+    }
+
 
     /**
      * Asegurar que el usuario no esta registrado
@@ -136,7 +161,11 @@ public class RegistroSteps {
 
     @Then("la respuesta debe seguir el esquema {string}")
     public void laRespuestaDebeSeguirEsquema(String esquema) {
-        //JSON SCHEMA
+        String schemaPath = "src/test/resources/schemas/" + esquema + ".json";
+
+        // Validar la respuesta con el esquema JSON
+        response.then().assertThat()
+                .body(JsonSchemaValidator.matchesJsonSchema(new File(schemaPath)));
     }
 
     /**
@@ -168,7 +197,7 @@ public class RegistroSteps {
      * Método para eliminar usuario
      * 
      * @param token
-     * @param nombre
+     * @param idUsuario
      */
 
     private void eliminarUsuario(String token, int idUsuario) {

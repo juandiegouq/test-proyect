@@ -29,7 +29,7 @@ Feature: Registro de Usuario
 
   # Escenario sin nombre de usuario, correo o contraseña
   Scenario: Registrar un usuario con un nombre de usuario, correo o contraseña faltante
-    Given un usuario con nombre "maria" y correo "mariam@uqvirtual.edu.co" y contraseña "mariacontra"
+    Given un usuario con datos generados aleatoriamente
     When el usuario envía una solicitud POST a "/usuarios" sin alguno de los 3 datos
     Then la respuesta debe tener el código de estado 400
     And la respuesta debe contener el mensaje "Entrada inválida, falta información."

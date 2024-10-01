@@ -1,2 +1,3 @@
 edu\uniquindio\runners\Runner.class
 edu\uniquindio\stepDefinitions\RegistroSteps.class
+edu\uniquindio\stepDefinitions\LoginSteps.class

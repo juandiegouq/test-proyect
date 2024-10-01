@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RegistroExitoso",
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Mensaje que indica que el usuario fue registrado con éxito"
+    },
+    "usuarioId": {
+      "type": "integer",
+      "description": "ID único del usuario registrado"
+    }
+  },
+  "required": ["message", "usuarioId"],
+  "additionalProperties": false
+}
